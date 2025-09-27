@@ -1,8 +1,9 @@
 /* ---------- Root / Layout ---------- */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%; /* Full width */
+  min-height: 100vh; /* Full height */
+  margin: 0; /* No margin */
+  padding: 0; /* Remove side padding */
   text-align: center;
   font-family: "Inter", sans-serif;
   background-color: #f1f5f9; /* light modern gray */
