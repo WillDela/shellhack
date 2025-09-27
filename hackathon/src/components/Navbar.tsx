@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { PersonCircle } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 const Navbar: FC = () => {
   return (
@@ -10,7 +10,13 @@ const Navbar: FC = () => {
         <div className="d-flex align-items-center gap-3">
           <span className="fw-bold fs-5">Sylly</span>
           <div className="dropdown">
-            <button className="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="schoolDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button
+              className="btn btn-sm btn-outline-secondary dropdown-toggle"
+              type="button"
+              id="schoolDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               School: FIU
             </button>
             <ul className="dropdown-menu" aria-labelledby="schoolDropdown">
@@ -26,9 +32,10 @@ const Navbar: FC = () => {
 
       {/* Navigation */}
       <div className="container-fluid border-top py-2 d-flex justify-content-start gap-3">
-        {["Dashboard", "Courses", "Calendar", "Chatbot"].map(link => (
-          <a key={link} href="#" className="nav-link text-dark fw-medium small">{link}</a>
-        ))}
+        <Link to="/" className="nav-link text-dark fw-medium small">Dashboard</Link>
+        <Link to="/courses" className="nav-link text-dark fw-medium small">Courses</Link>
+        <Link to="/calendar" className="nav-link text-dark fw-medium small">Calendar</Link>
+        <Link to="/chatbot" className="nav-link text-dark fw-medium small">Chatbot</Link>
       </div>
     </header>
   );
