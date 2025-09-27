@@ -1,42 +1,103 @@
+/* ---------- Root / Layout ---------- */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: "Inter", sans-serif;
+  background-color: #f1f5f9; /* light modern gray */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ---------- Page Title ---------- */
+h1 {
+  color: #0f172a;
+  font-weight: 600;
+  margin-bottom: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* ---------- Section Titles ---------- */
+h2 {
+  color: #1f2937; /* softer black */
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-align: left;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* ---------- Upcoming Deadlines Box ---------- */
+.upcoming-deadlines {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
 }
 
-.card {
-  padding: 2em;
+.deadline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  cursor: default;
 }
 
+.deadline-item:hover {
+  background-color: #e0f2fe; /* light blue hover */
+  transform: translateY(-2px);
+}
+
+/* ---------- Quick Actions Buttons ---------- */
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  border: none;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+.action-button.blue {
+  background-color: #3b82f6;
+}
+.action-button.blue:hover {
+  background-color: #2563eb;
+}
+
+.action-button.green {
+  background-color: #22c55e;
+}
+.action-button.green:hover {
+  background-color: #16a34a;
+}
+
+.action-button.gray {
+  background-color: #1f2937;
+}
+.action-button.gray:hover {
+  background-color: #111827;
+}
+
+/* ---------- Modal Customizations ---------- */
+.modal-content {
+  border-radius: 1rem;
+}
+
+/* ---------- Misc ---------- */
 .read-the-docs {
   color: #888;
 }
