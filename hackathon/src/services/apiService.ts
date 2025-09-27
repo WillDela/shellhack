@@ -42,7 +42,7 @@ export const uploadSyllabus = async (
     const data: UploadResponse = await response.json();
     return data;
   } catch (error) {
-    console.error('Error uploading syllabus:', error);
+    console.log('Backend not available, using mock data for demo:', error);
 
     // For development/demo - return mock data
     const mockEvents = [

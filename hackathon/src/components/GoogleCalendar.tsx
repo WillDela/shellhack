@@ -29,16 +29,16 @@ const GoogleCalendar: FC<GoogleCalendarProps> = ({
     );
   }
 
-  // Check if user is authenticated with Google
-  if (!isGoogleUser) {
-    return (
-      <Alert variant="info">
-        <span className="me-2">📧</span>
-        Google Calendar integration requires Google authentication.
-        Please log in with your Google account.
-      </Alert>
-    );
-  }
+  // Check if user is authenticated with Google (relaxed for demo)
+  // if (!isGoogleUser) {
+  //   return (
+  //     <Alert variant="info">
+  //       <span className="me-2">📧</span>
+  //       Google Calendar integration requires Google authentication.
+  //       Please log in with your Google account.
+  //     </Alert>
+  //   );
+  // }
 
   // Load events from Google Calendar
   const loadEvents = async () => {
@@ -57,9 +57,11 @@ const GoogleCalendar: FC<GoogleCalendarProps> = ({
 
   // Load events on component mount
   useEffect(() => {
-    if (isGoogleUser) {
-      loadEvents();
-    }
+    // Temporarily disable API calls for hackathon demo
+    // if (isGoogleUser) {
+    //   loadEvents();
+    // }
+    setError("Using embedded calendar view for demo");
   }, [isGoogleUser]);
 
   // Google Calendar embed URL as fallback
