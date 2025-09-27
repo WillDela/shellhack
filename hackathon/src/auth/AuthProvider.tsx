@@ -13,8 +13,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI;
 
   // Ensure all required Auth0 environment variables are present
-  if (!domain || !clientId || !redirectUri) {
-    throw new Error('Auth0 environment variables are not configured');
+  if (!domain || !clientId || !redirectUri || domain.includes('your-auth0')) {
+    console.warn('Auth0 not configured - authentication disabled');
+    // Return children without Auth0 wrapper for development
+    return <>{children}</>;
   }
 
   return (

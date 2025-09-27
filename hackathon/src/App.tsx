@@ -11,11 +11,34 @@ import Login from './components/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
-  const { isAuthenticated, isLoading } = useAuth0()
+  // Check if Auth0 is configured
+  const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+  const auth0Configured = domain && !domain.includes('your-auth0');
+
+  const { isAuthenticated, isLoading } = auth0Configured ? useAuth0() : { isAuthenticated: false, isLoading: false };
 
   // Show loading while Auth0 initializes
-  if (isLoading) {
+  if (auth0Configured && isLoading) {
     return <div>Loading...</div>
+  }
+
+  // If Auth0 not configured, show app without authentication for development
+  if (!auth0Configured) {
+    return (
+      <CourseProvider>
+        <Router>
+          <Navbar />
+          <main className="p-3">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/chatbot" element={<Chatbot />} />
+            </Routes>
+          </main>
+        </Router>
+      </CourseProvider>
+    );
   }
 
   return (
@@ -84,6 +107,7 @@ function App() {
         </Routes>
       </Router>
     </CourseProvider>
+  )
 }
 
 export default App
