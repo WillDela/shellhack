@@ -3,9 +3,7 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { PlusCircle } from "lucide-react";
-
-type Deadline = { id: string; title: string; date: string; course: string; };
-type Action = { id: string; label: string; color: "primary" | "success" | "secondary"; icon?: React.ReactNode; };
+import { type Deadline, type Action } from "../types";
 
 const deadlines: Deadline[] = [
   { id: "1", title: "Quiz 1", date: "Oct 3", course: "CS201" },
