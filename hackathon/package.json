@@ -13,6 +13,7 @@
     "@auth0/auth0-react": "^2.5.0",
     "@types/react-router-dom": "^5.3.3",
     "bootstrap": "^5.3.8",
+    "googleapis": "^160.0.0",
     "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",

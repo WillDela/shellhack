@@ -1,0 +1,181 @@
+/* Sylly Color Palette */
+:root {
+  /* Primary colors */
+  --sylly-white: #FFFFFF;
+  --sylly-dark-purple: #31002F;
+  --sylly-gray: #50514F;
+  --sylly-gold: #F1A923;
+  --sylly-teal: #2E9A96;
+
+  /* Variations for better UI */
+  --sylly-dark-purple-light: #4a0a47;
+  --sylly-gray-light: #6b6c6a;
+  --sylly-gold-light: #f4b947;
+  --sylly-teal-light: #4aaa9a;
+
+  /* Background variations */
+  --sylly-bg-primary: #fafafa;
+  --sylly-bg-secondary: #f8f9fa;
+
+  /* Text colors */
+  --sylly-text-primary: var(--sylly-dark-purple);
+  --sylly-text-secondary: var(--sylly-gray);
+  --sylly-text-muted: #6c757d;
+}
+
+/* Bootstrap overrides */
+.btn-primary {
+  background-color: var(--sylly-teal) !important;
+  border-color: var(--sylly-teal) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--sylly-teal-light) !important;
+  border-color: var(--sylly-teal-light) !important;
+}
+
+.btn-outline-primary {
+  color: var(--sylly-teal) !important;
+  border-color: var(--sylly-teal) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--sylly-teal) !important;
+  border-color: var(--sylly-teal) !important;
+}
+
+.btn-success {
+  background-color: var(--sylly-gold) !important;
+  border-color: var(--sylly-gold) !important;
+  color: var(--sylly-dark-purple) !important;
+}
+
+.btn-success:hover {
+  background-color: var(--sylly-gold-light) !important;
+  border-color: var(--sylly-gold-light) !important;
+}
+
+.text-primary {
+  color: var(--sylly-teal) !important;
+}
+
+.bg-primary {
+  background-color: var(--sylly-dark-purple) !important;
+}
+
+.border-primary {
+  border-color: var(--sylly-teal) !important;
+}
+
+/* Custom utility classes */
+.sylly-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(49, 0, 47, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sylly-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(49, 0, 47, 0.12);
+}
+
+.sylly-gradient-bg {
+  background: linear-gradient(135deg, var(--sylly-teal) 0%, var(--sylly-dark-purple) 100%);
+}
+
+.sylly-text-primary {
+  color: var(--sylly-text-primary) !important;
+}
+
+.sylly-text-secondary {
+  color: var(--sylly-text-secondary) !important;
+}
+
+.sylly-bg-light {
+  background-color: var(--sylly-bg-primary) !important;
+}
+
+/* Loading spinner */
+.sylly-spinner {
+  border: 3px solid var(--sylly-bg-secondary);
+  border-top: 3px solid var(--sylly-teal);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom navbar styling */
+.sylly-navbar {
+  background: var(--sylly-white) !important;
+  border-bottom: 2px solid var(--sylly-bg-secondary);
+  box-shadow: 0 2px 8px rgba(49, 0, 47, 0.05);
+}
+
+.sylly-navbar .navbar-brand {
+  color: var(--sylly-dark-purple) !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Academic-style buttons */
+.btn-academic {
+  background-color: var(--sylly-gold);
+  border-color: var(--sylly-gold);
+  color: var(--sylly-dark-purple);
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+}
+
+.btn-academic:hover {
+  background-color: var(--sylly-gold-light);
+  border-color: var(--sylly-gold-light);
+  color: var(--sylly-dark-purple);
+  transform: translateY(-1px);
+}
+
+/* Login page enhancements */
+.sylly-login-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(49, 0, 47, 0.15);
+  background: var(--sylly-white);
+}
+
+.sylly-login-title {
+  background: linear-gradient(135deg, var(--sylly-teal), var(--sylly-dark-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+/* Navigation hover effects */
+.hover-bg-light:hover {
+  background-color: rgba(46, 154, 150, 0.1) !important;
+  color: var(--sylly-teal) !important;
+  transition: all 0.2s ease;
+}
+
+/* Active navigation link */
+.nav-link.active {
+  background-color: var(--sylly-teal) !important;
+  color: white !important;
+}
+
+/* Enhanced dropdown styling */
+.dropdown-menu {
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(49, 0, 47, 0.15) !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(46, 154, 150, 0.1) !important;
+  color: var(--sylly-teal) !important;
+}
