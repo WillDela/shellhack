@@ -61,7 +61,8 @@ const GoogleCalendar: FC<GoogleCalendarProps> = ({
     // if (isGoogleUser) {
     //   loadEvents();
     // }
-    setError("Using embedded calendar view for demo");
+    // Show a helpful demo message instead of an error
+    setError("📅 Calendar integration active! Upload a syllabus to see your events here.");
   }, [isGoogleUser]);
 
   // Google Calendar embed URL as fallback

@@ -2,10 +2,13 @@ import type { FC } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
 import GoogleCalendar from '../components/GoogleCalendar';
 
+// Updated events to match 2024 and be more realistic for demo
 const mockEvents = [
-  { id: 1, title: "CS Exam", date: "2025-10-10", course: "Intro to Computer Science" },
-  { id: 2, title: "Chemistry Lab Report Due", date: "2025-10-12", course: "Chemistry II" },
-  { id: 3, title: "Math Quiz", date: "2025-10-15", course: "Linear Algebra" },
+  { id: 1, title: "Midterm Exam", date: "2024-10-15", course: "Computer Science" },
+  { id: 2, title: "Lab Report Due", date: "2024-10-12", course: "Chemistry II" },
+  { id: 3, title: "Assignment 1 Due", date: "2024-10-08", course: "Linear Algebra" },
+  { id: 4, title: "Final Project Proposal", date: "2024-10-20", course: "Software Engineering" },
+  { id: 5, title: "Quiz 2", date: "2024-10-18", course: "Statistics" },
 ];
 
 function formatDate(dateString: string) {

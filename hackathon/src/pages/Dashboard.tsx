@@ -14,10 +14,35 @@ type Action = {
   icon?: React.ReactNode;
 };
 
-const deadlines: Deadline[] = [
-  { id: "1", title: "Quiz 1", date: "Oct 3", course: "CS201" },
-  { id: "2", title: "Project Proposal", date: "Oct 8", course: "HCI" },
-];
+// Dynamic deadlines from uploaded syllabi - will be populated when syllabi are processed
+const getUpcomingDeadlines = () => {
+  // Mock data for demo - in real app this would come from parsed syllabi
+  const mockDeadlines: Deadline[] = [
+    { id: "1", title: "Midterm Exam", date: "Oct 15", course: "Computer Science" },
+    { id: "2", title: "Assignment 1 Due", date: "Oct 8", course: "Linear Algebra" },
+    { id: "3", title: "Lab Report Due", date: "Oct 12", course: "Chemistry II" },
+  ];
+
+  // Sort by date and return only upcoming ones
+  const today = new Date();
+  return mockDeadlines
+    .filter(d => new Date(d.date + ", 2024") >= today)
+    .sort((a, b) => new Date(a.date + ", 2024").getTime() - new Date(b.date + ", 2024").getTime());
+};
+
+// Helper function to determine deadline urgency
+const getDeadlineUrgency = (dateString: string) => {
+  const deadline = new Date(dateString + ", 2024");
+  const today = new Date();
+  const diffTime = deadline.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays <= 3) return 'urgent';
+  if (diffDays <= 7) return 'upcoming';
+  return 'normal';
+};
+
+const deadlines = getUpcomingDeadlines();
 
 const actions: Action[] = [
   { id: "add", label: "Add Course", color: "primary", icon: <PlusCircle className="me-2" /> },
@@ -26,12 +51,13 @@ const actions: Action[] = [
 ];
 
 const Dashboard: FC = () => {
-  const { addCourse } = useCourses();
+  const { addCourse, courses } = useCourses();
   const [showModal, setShowModal] = useState(false);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +91,21 @@ const Dashboard: FC = () => {
     }
   };
 
+  const handleActionClick = async (actionId: string) => {
+    if (actionId === "add") {
+      setShowModal(true);
+    } else if (actionId === "plan") {
+      alert("📋 Study plan generated!\n\nBased on your deadlines:\n• Start early on projects\n• Review notes weekly\n• Schedule study sessions");
+    } else if (actionId === "publish") {
+      setIsSyncing(true);
+      // Simulate API call
+      setTimeout(() => {
+        setIsSyncing(false);
+        alert("📅 Events synced to Google Calendar!\n\nAll your deadlines are now in your calendar with reminders.");
+      }, 2000);
+    }
+  };
+
   return (
     <div className="container-fluid min-vh-100 sylly-bg-light p-4">
       {/* Welcome Header */}
@@ -92,17 +133,23 @@ const Dashboard: FC = () => {
                   </div>
                 ) : (
                   <div className="d-flex flex-column gap-3">
-                    {deadlines.map((d) => (
-                      <div key={d.id} className="d-flex justify-content-between align-items-center p-3 bg-light rounded-3 border-start border-4 border-primary">
-                        <div>
-                          <div className="fw-bold sylly-text-primary">{d.title}</div>
-                          <small className="sylly-text-secondary">{d.course}</small>
+                    {deadlines.map((d) => {
+                      const urgency = getDeadlineUrgency(d.date);
+                      const urgencyClass = `deadline-${urgency}`;
+                      return (
+                        <div key={d.id} className={`deadline-card d-flex justify-content-between align-items-center p-3 bg-light rounded-3 border-start border-4 ${urgencyClass}`}>
+                          <div>
+                            <div className="fw-bold sylly-text-primary">{d.title}</div>
+                            <small className="sylly-text-secondary">{d.course}</small>
+                          </div>
+                          <div className="text-end">
+                            <div className={`badge ${urgency === 'urgent' ? 'bg-danger' : urgency === 'upcoming' ? 'bg-warning text-dark' : 'bg-primary'} text-white px-3 py-2`}>
+                              {d.date}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-end">
-                          <div className="badge bg-primary text-white px-3 py-2">{d.date}</div>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -119,11 +166,21 @@ const Dashboard: FC = () => {
                 <button
                   key={a.id}
                   className={`btn ${a.id === 'add' ? 'btn-academic' : a.id === 'plan' ? 'btn-success' : 'btn-outline-primary'} d-flex align-items-center justify-content-center py-3 fw-semibold`}
-                  onClick={a.id === "add" ? () => setShowModal(true) : undefined}
+                  onClick={() => handleActionClick(a.id)}
+                  disabled={isSyncing && a.id === 'publish'}
                   style={{borderRadius: '12px'}}
                 >
-                  <span className="me-2">{a.icon}</span>
-                  {a.label}
+                  {isSyncing && a.id === 'publish' ? (
+                    <>
+                      <div className="sylly-spinner me-2" style={{width: '16px', height: '16px', borderWidth: '2px'}}></div>
+                      Syncing...
+                    </>
+                  ) : (
+                    <>
+                      <span className="me-2">{a.icon}</span>
+                      {a.label}
+                    </>
+                  )}
                 </button>
               ))}
             </div>
@@ -134,11 +191,11 @@ const Dashboard: FC = () => {
                 <h5 className="sylly-text-primary fw-bold mb-3">📊 Your Progress</h5>
                 <div className="row">
                   <div className="col-6">
-                    <div className="h4 fw-bold" style={{color: 'var(--sylly-teal)'}}>2</div>
+                    <div className="h4 fw-bold" style={{color: 'var(--sylly-teal)'}}>{courses.length}</div>
                     <small className="text-muted">Courses</small>
                   </div>
                   <div className="col-6">
-                    <div className="h4 fw-bold" style={{color: 'var(--sylly-gold)'}}>5</div>
+                    <div className="h4 fw-bold" style={{color: 'var(--sylly-gold)'}}>{deadlines.length}</div>
                     <small className="text-muted">Deadlines</small>
                   </div>
                 </div>

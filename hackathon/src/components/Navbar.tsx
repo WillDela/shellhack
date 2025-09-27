@@ -3,6 +3,7 @@ import { PersonCircle } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
 import { Dropdown } from 'react-bootstrap';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar: FC = () => {
   const { user, logout } = useAuth0();
@@ -43,8 +44,10 @@ const Navbar: FC = () => {
           </div>
         </div>
 
-        {/* User Profile Dropdown */}
-        <Dropdown align="end">
+        {/* Theme Toggle + User Profile Dropdown */}
+        <div className="d-flex align-items-center gap-3">
+          <ThemeToggle />
+          <Dropdown align="end">
           <Dropdown.Toggle variant="link" className="border-0 p-1 rounded-circle" id="user-dropdown" style={{background: 'linear-gradient(135deg, var(--sylly-teal), var(--sylly-gold))', padding: '2px'}}>
             {user?.picture ? (
               <img
@@ -82,7 +85,8 @@ const Navbar: FC = () => {
               <span className="me-2">🚪</span>Logout
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+          </Dropdown>
+        </div>
       </div>
 
       {/* Navigation */}
