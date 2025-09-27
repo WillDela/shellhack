@@ -295,15 +295,11 @@ We welcome contributions to make Sylly even better! Here's how you can help:
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**
 
 ---
 
 ## 🙏 Acknowledgments
-
-### **Built With Love By**
-- **Your Team Name** - Hackathon Heroes ✨
-- **Florida International University** - Supporting innovation in education
 
 ### **Special Thanks To**
 - **Auth0** - For secure, easy authentication
@@ -311,27 +307,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - **Bootstrap Team** - For the amazing UI framework
 - **React Community** - For the incredible ecosystem
 - **Open Source Contributors** - For making this possible
-
-### **Hackathon Information**
-- **Event**: ShellHacks 2024 🐚
-- **Category**: Education Technology
-- **Theme**: Solving Real Student Problems
-- **Built In**: 48 Hours
-
----
-
-## 📞 Support & Contact
-
-### **Get Help**
-- 📧 **Email**: support@sylly.app
-- 💬 **Discord**: Join our community server
-- 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/sylly/issues)
-- 📚 **Documentation**: [Full Docs](https://docs.sylly.app)
-
-### **Stay Connected**
-- 🌟 **Star this repo** if you found it helpful!
-- 🐦 **Follow us on Twitter**: [@SyllyApp](https://twitter.com/syllyapp)
-- 💼 **LinkedIn**: [Sylly Team](https://linkedin.com/company/sylly)
 
 ---
 
