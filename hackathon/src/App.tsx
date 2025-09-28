@@ -2,12 +2,13 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { CourseProvider } from "./CourseContext"
-import Navbar from './components/Navbar'
+import AppNavbar from './components/Navbar'
 import Dashboard from "./pages/Dashboard"
 import Courses from "./pages/Courses"
 import Calendar from "./pages/Calendar"
 import Chatbot from "./pages/Chatbot"
 import Login from './components/Login'
+import SharedSyllabi from "./pages/SharedSyllabi"
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -28,13 +29,14 @@ function App() {
     return (
       <CourseProvider>
         <Router>
-          <Navbar />
+          <AppNavbar />
           <main className="p-3">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/chatbot" element={<Chatbot />} />
+              <Route path="/shared-syllabi" element={<SharedSyllabi />} />
             </Routes>
           </main>
         </Router>
@@ -49,7 +51,7 @@ function App() {
           {/* Public route - Login page */}
           <Route
             path="/login"
-            element={!isAuthenticated ? <Login /> : <ProtectedRoute><><Navbar /><main className="p-3"><Dashboard /></main></></ProtectedRoute>}
+            element={!isAuthenticated ? <Login /> : <ProtectedRoute><><AppNavbar /><main className="p-3"><Dashboard /></main></></ProtectedRoute>}
           />
 
           {/* Protected routes with navigation */}
@@ -58,7 +60,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <>
-                  <Navbar />
+                  <AppNavbar />
                   <main className="p-3">
                     <Dashboard />
                   </main>
@@ -71,7 +73,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <>
-                  <Navbar />
+                  <AppNavbar />
                   <main className="p-3">
                     <Courses />
                   </main>
@@ -84,7 +86,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <>
-                  <Navbar />
+                  <AppNavbar />
                   <main className="p-3">
                     <Calendar />
                   </main>
@@ -97,9 +99,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <>
-                  <Navbar />
+                  <AppNavbar />
                   <main className="p-3">
                     <Chatbot />
+                  </main>
+                </>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/shared-syllabi"
+            element={
+              <ProtectedRoute>
+                <>
+                  <AppNavbar />
+                  <main className="p-3">
+                    <SharedSyllabi />
                   </main>
                 </>
               </ProtectedRoute>

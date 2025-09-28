@@ -34,7 +34,7 @@ const AppNavbar: FC = () => {
             <Nav.Link as={Link} to="/courses">Courses</Nav.Link>
             <Nav.Link as={Link} to="/calendar">Calendar</Nav.Link>
             <Nav.Link as={Link} to="/chatbot">Chatbot</Nav.Link>
-            <Nav.Link as={Link} to="/shared_syllabus">Shared Syllabus</Nav.Link>
+            <Nav.Link as={Link} to="/shared-syllabi">Shared Syllabi</Nav.Link>
 
             {/* User Avatar */}
             <PersonCircle size={32} className="ms-3" />

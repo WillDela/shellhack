@@ -28,6 +28,23 @@ const Calendar: FC = () => {
     alert("This will export all assignments to Google Calendar (backend link needed).");
   };
 
+  // --- Suggested Study Sessions Logic ---
+  const suggestedSessions = assignments.slice(0, 3).map((a) => {
+    const course = courses.find((c) => c.id === a.courseId);
+    const dueDate = new Date(a.dueDate);
+
+    // Schedule study session 2 days before due date (basic logic)
+    const studyDate = new Date(dueDate);
+    studyDate.setDate(dueDate.getDate() - 2);
+
+    return {
+      id: a.id,
+      course: course ? `${course.code}: ${course.name}` : "Unknown Course",
+      assignment: a.title,
+      date: studyDate.toDateString(),
+    };
+  });
+
   return (
     <div className="p-4" style={{ backgroundColor: "#F8F9FA", minHeight: "100vh" }}>
       <h2 className="mb-4" style={{ color: "#0D6EFD" }}>📅 Calendar</h2>
@@ -58,6 +75,8 @@ const Calendar: FC = () => {
         </Button>
       </div>
 
+      {/* Assignment Planner */}
+      <h4 className="mt-4 mb-3">📌 Assignment Planner</h4>
       {assignments.length === 0 ? (
         <p className="text-muted">
           No upcoming assignments. Add some assignments!
@@ -99,6 +118,26 @@ const Calendar: FC = () => {
               </li>
             );
           })}
+        </ul>
+      )}
+
+      {/* Suggested Study Sessions */}
+      <h4 className="mt-5 mb-3">📖 Suggested Study Sessions</h4>
+      {suggestedSessions.length === 0 ? (
+        <p className="text-muted">No sessions suggested yet.</p>
+      ) : (
+        <ul className="list-group">
+          {suggestedSessions.map((s) => (
+            <li
+              key={s.id}
+              className="list-group-item mb-2 shadow-sm rounded"
+              style={{ backgroundColor: "#FFFFFF" }}
+            >
+              <div className="fw-bold">{s.assignment}</div>
+              <div className="text-muted small">{s.course}</div>
+              <div className="mt-1">📅 {s.date}</div>
+            </li>
+          ))}
         </ul>
       )}
     </div>
