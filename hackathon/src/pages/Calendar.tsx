@@ -1,15 +1,8 @@
 import type { FC } from "react";
-import { Container, Row, Col } from 'react-bootstrap';
-import GoogleCalendar from '../components/GoogleCalendar';
-
-// Updated events to match 2024 and be more realistic for demo
-const mockEvents = [
-  { id: 1, title: "Midterm Exam", date: "2024-10-15", course: "Computer Science" },
-  { id: 2, title: "Lab Report Due", date: "2024-10-12", course: "Chemistry II" },
-  { id: 3, title: "Assignment 1 Due", date: "2024-10-08", course: "Linear Algebra" },
-  { id: 4, title: "Final Project Proposal", date: "2024-10-20", course: "Software Engineering" },
-  { id: 5, title: "Quiz 2", date: "2024-10-18", course: "Statistics" },
-];
+import { useState } from "react";
+import { useCourses } from "../CourseContext";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Form, Button } from "react-bootstrap";
 
 function formatDate(dateString: string) {
   const date = new Date(dateString);
@@ -20,55 +13,95 @@ function formatDate(dateString: string) {
 }
 
 const Calendar: FC = () => {
-  const events = mockEvents;
+  const { courses, getAssignments } = useCourses();
+  const [filterCourse, setFilterCourse] = useState<string>("");
+
+  const assignments = getAssignments()
+    .filter((a) => !filterCourse || a.courseId === filterCourse)
+    .sort(
+      (a, b) =>
+        new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+    );
+
+  // Placeholder: backend will provide the export link
+  const exportAllToGoogleCalendar = () => {
+    alert("This will export all assignments to Google Calendar (backend link needed).");
+  };
 
   return (
-    <Container className="py-4">
-      <h2 className="mb-4">📅 Calendar</h2>
+    <div className="p-4" style={{ backgroundColor: "#F8F9FA", minHeight: "100vh" }}>
+      <h2 className="mb-4" style={{ color: "#0D6EFD" }}>📅 Calendar</h2>
 
-      <Row>
-        {/* Left column - Upcoming events list */}
-        <Col lg={4} className="mb-4">
-          <h4 className="mb-3">Upcoming Events</h4>
-          {events.length === 0 ? (
-            <p className="text-muted">No upcoming events. Add some deadlines!</p>
-          ) : (
-            <ul className="list-group">
-              {events.map((event) => {
-                const { day, month } = formatDate(event.date);
-                return (
-                  <li
-                    key={event.id}
-                    className="list-group-item d-flex"
+      {/* Filters + Export button */}
+      <div className="d-flex gap-3 mb-3 flex-wrap align-items-end">
+        <Form.Group style={{ minWidth: "200px" }}>
+          <Form.Label>Filter by Course</Form.Label>
+          <Form.Select
+            value={filterCourse}
+            onChange={(e) => setFilterCourse(e.target.value)}
+          >
+            <option value="">All Courses</option>
+            {courses.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.code}: {c.name}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+
+        <Button
+          variant="primary"
+          onClick={exportAllToGoogleCalendar}
+          disabled={assignments.length === 0}
+        >
+          Export All to Google Calendar
+        </Button>
+      </div>
+
+      {assignments.length === 0 ? (
+        <p className="text-muted">
+          No upcoming assignments. Add some assignments!
+        </p>
+      ) : (
+        <ul className="list-group">
+          {assignments.map((a) => {
+            const course = courses.find((c) => c.id === a.courseId);
+            const { day, month } = formatDate(a.dueDate);
+            return (
+              <li
+                key={a.id}
+                className="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded"
+                style={{ backgroundColor: "#FFFFFF", cursor: "default" }}
+              >
+                {/* Left: assignment title + course */}
+                <div className="flex-grow-1 text-start">
+                  <strong style={{ color: "#212529" }}>{a.title}</strong>
+                  <div className="text-muted small">
+                    {course ? `${course.code}: ${course.name}` : "Unknown Course"}
+                  </div>
+                </div>
+
+                {/* Right: date badge */}
+                <div className="text-center ms-3">
+                  <div
+                    className="rounded-top px-2 py-1 fw-bold small"
+                    style={{ backgroundColor: "#0D6EFD", color: "#FFFFFF" }}
                   >
-                    {/* Left: assignment + course (all left-aligned) */}
-                    <div className="flex-grow-1 text-start">
-                      <strong>{event.title}</strong>
-                      <div className="text-muted small">{event.course}</div>
-                    </div>
-
-                    {/* Right: date badge */}
-                    <div className="text-center ms-3">
-                      <div className="bg-primary text-white rounded-top px-2 py-1 fw-bold small">
-                        {month}
-                      </div>
-                      <div className="border rounded-bottom px-2 py-2 fw-bold fs-6">
-                        {day}
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </Col>
-
-        {/* Right column - Google Calendar iframe */}
-        <Col lg={8}>
-          <GoogleCalendar height={600} />
-        </Col>
-      </Row>
-    </Container>
+                    {month}
+                  </div>
+                  <div
+                    className="border rounded-bottom px-2 py-2 fw-bold fs-6"
+                    style={{ borderColor: "#0D6EFD" }}
+                  >
+                    {day}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 };
 

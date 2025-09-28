@@ -1,9 +1,7 @@
 import './App.css'
-import './styles/colors.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { CourseProvider } from "./CourseContext"
-import { ThemeProvider } from './contexts/ThemeContext'
 import Navbar from './components/Navbar'
 import Dashboard from "./pages/Dashboard"
 import Courses from "./pages/Courses"
@@ -13,28 +11,21 @@ import Login from './components/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
-  const { isAuthenticated, isLoading, user } = useAuth0();
+  // Check if Auth0 is configured
+  const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+  const auth0Configured = domain && !domain.includes('your-auth0');
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { isAuthenticated, isLoading } = auth0Configured ? useAuth0() : { isAuthenticated: false, isLoading: false };
 
   // Show loading while Auth0 initializes
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (auth0Configured && isLoading) {
+    return <div>Loading...</div>
   }
 
-  // Debug logging
-  console.log('Auth0 state:', { isAuthenticated, isLoading, user });
-
-  // If not authenticated, show login page regardless of route
-  if (!isAuthenticated) {
+  // If Auth0 not configured, show app without authentication for development
+  if (!auth0Configured) {
     return (
-      <ThemeProvider>
-        <Login />
-      </ThemeProvider>
-    );
-  }
-
-  // If authenticated, show protected app
-  return (
-    <ThemeProvider>
       <CourseProvider>
         <Router>
           <Navbar />
@@ -48,7 +39,75 @@ function App() {
           </main>
         </Router>
       </CourseProvider>
-    </ThemeProvider>
+    );
+  }
+
+  return (
+    <CourseProvider>
+      <Router>
+        <Routes>
+          {/* Public route - Login page */}
+          <Route
+            path="/login"
+            element={!isAuthenticated ? <Login /> : <ProtectedRoute><><Navbar /><main className="p-3"><Dashboard /></main></></ProtectedRoute>}
+          />
+
+          {/* Protected routes with navigation */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <>
+                  <Navbar />
+                  <main className="p-3">
+                    <Dashboard />
+                  </main>
+                </>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/courses"
+            element={
+              <ProtectedRoute>
+                <>
+                  <Navbar />
+                  <main className="p-3">
+                    <Courses />
+                  </main>
+                </>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/calendar"
+            element={
+              <ProtectedRoute>
+                <>
+                  <Navbar />
+                  <main className="p-3">
+                    <Calendar />
+                  </main>
+                </>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chatbot"
+            element={
+              <ProtectedRoute>
+                <>
+                  <Navbar />
+                  <main className="p-3">
+                    <Chatbot />
+                  </main>
+                </>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </CourseProvider>
   )
 }
 
